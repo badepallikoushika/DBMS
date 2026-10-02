@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Warehouse & Inventory Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background: #0f172a; margin: 0; padding: 0; font-family: Arial, sans-serif;">
+
+    <div class="login-container" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f172a; padding: 20px;">
+        <div class="login-card" style="background: #ffffff !important; color: #1e293b !important; width: 100%; max-width: 440px; border-radius: 16px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); padding: 35px 30px; box-sizing: border-box;">
+            
+            <div class="login-header" style="text-align: center; margin-bottom: 25px;">
+                <div class="login-logo" style="width: 56px; height: 56px; background: #4f46e5; color: #ffffff; font-size: 28px; font-weight: bold; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto;">W</div>
+                <h1 style="font-size: 24px; color: #0f172a !important; font-weight: 700; margin: 0;">Warehouse System</h1>
+                <p style="font-size: 14px; color: #64748b !important; margin-top: 4px;">Enterprise Inventory Portal</p>
+            </div>
+
+            <!-- ROLE SELECTOR TABS -->
+            <div class="role-tabs" style="display: flex; background: #f1f5f9; padding: 4px; border-radius: 10px; margin-bottom: 20px;">
+                <button type="button" class="role-tab active" id="tabAdmin" onclick="setLoginRole('admin')">
+                    Admin Login
+                </button>
+                <button type="button" class="role-tab" id="tabUser" onclick="setLoginRole('user')">
+                    User / Staff Login
+                </button>
+            </div>
+
+            <!-- ALERT MESSAGE BOX -->
+            <div id="loginAlert" class="alert-box error" style="margin-bottom: 15px; display: none;"></div>
+
+            <!-- LOGIN FORM -->
+            <form id="loginForm">
+                <div class="form-group" style="margin-bottom: 16px; text-align: left;">
+                    <label for="email" style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #334155 !important;">Email Address</label>
+                    <input type="email" id="email" placeholder="e.g. admin@warehouse.com" required style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; background: #ffffff !important; color: #0f172a !important; box-sizing: border-box;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 22px; text-align: left;">
+                    <label for="password" style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #334155 !important;">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required style="width: 100%; height: 44px; padding: 0 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; background: #ffffff !important; color: #0f172a !important; box-sizing: border-box;">
+                </div>
+
+                <button type="submit" id="btnLoginSubmit" class="primary-btn" style="width: 100%; height: 46px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+                    Sign In to Portal
+                </button>
+            </form>
+
+            <div style="margin-top: 20px; text-align: center; border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 12px; color: #64748b !important;">
+                <p style="margin: 0;">MySQL Enterprise Engine • FastAPI Async REST Backend</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+        let currentSelectedRole = "admin";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const userJson = localStorage.getItem("currentUser");
+            if (userJson) {
+                window.location.href = "index.html";
+            }
+        });
+
+        function setLoginRole(role) {
+            currentSelectedRole = role;
+            const tabAdmin = document.getElementById("tabAdmin");
+            const tabUser = document.getElementById("tabUser");
+
+            if (role === "admin") {
+                tabAdmin.classList.add("active");
+                tabUser.classList.remove("active");
+            } else {
+                tabUser.classList.add("active");
+                tabAdmin.classList.remove("active");
+            }
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const alertBox = document.getElementById("loginAlert");
+            const btn = document.getElementById("btnLoginSubmit");
+
+            alertBox.style.display = "none";
+            btn.disabled = true;
+            btn.textContent = "Authenticating...";
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || "Authentication failed. Check credentials.");
+                }
+
+                const user = data.user;
+                localStorage.setItem("currentUser", JSON.stringify(user));
+                
+                alertBox.className = "alert-box show success";
+                alertBox.style.display = "block";
+                alertBox.innerHTML = `Welcome back, <strong>${user.name}</strong> (${user.role.toUpperCase()})! Redirecting...`;
+
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 800);
+
+            } catch (err) {
+                btn.disabled = false;
+                btn.textContent = "Sign In to Portal";
+                alertBox.className = "alert-box show error";
+                alertBox.style.display = "block";
+                alertBox.textContent = err.message;
+            }
+        });
+    </script>
+</body>
+</html>

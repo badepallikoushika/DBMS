@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Requests - Warehouse System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <div>
+                <h2>WareHouse</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <div id="userProfileBox" class="user-info-box">
+            <!-- Dynamically populated by script.js -->
+        </div>
+
+        <nav>
+            <a href="index.html" class="nav-item"><span>D</span> Dashboard</a>
+            <a href="inventory.html" class="nav-item"><span>I</span> Inventory</a>
+            <a href="warehouses.html" class="nav-item"><span>W</span> Warehouses</a>
+            <a href="stock-in.html" class="nav-item admin-only"><span>+</span> Stock In</a>
+            <a href="stock-out.html" class="nav-item admin-only"><span>-</span> Stock Out</a>
+            <a href="low-stock.html" class="nav-item"><span>!</span> Low Stock Alerts</a>
+            <a href="orders.html" class="nav-item active"><span>O</span> Stock Requests</a>
+            <a href="users.html" class="nav-item admin-only"><span>👥</span> User Admin</a>
+        </nav>
+
+        <button onclick="logoutUser()" class="logout-btn">🔒 Logout</button>
+
+        <div class="sidebar-bottom">
+            <p>MySQL Enterprise DB</p>
+            <small>Warehouse System v2.0</small>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h1>Stock Orders & Requests</h1>
+                <p>Submit material allocation requests and review pending admin approvals</p>
+            </div>
+        </header>
+
+        <!-- NEW ORDER REQUEST FORM -->
+        <section class="content-card" style="margin-bottom: 25px;">
+            <div class="section-header">
+                <div>
+                    <h2>Submit Stock Request</h2>
+                    <p>Request inventory issuance from warehouse stock</p>
+                </div>
+            </div>
+
+            <form id="orderForm" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; align-items: flex-end;">
+                <div class="form-group">
+                    <label>Select Product *</label>
+                    <select id="orderProduct" required style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Warehouse *</label>
+                    <select id="orderWarehouse" required style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity *</label>
+                    <input type="number" id="orderQuantity" min="1" required placeholder="Units required" style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;">
+                </div>
+
+                <div style="grid-column: span 3;">
+                    <button type="submit" class="primary-btn" style="padding: 10px 20px;">Submit Order Request</button>
+                </div>
+            </form>
+            <div id="orderMessage" style="margin-top: 15px;"></div>
+        </section>
+
+        <!-- ORDERS HISTORY TABLE -->
+        <section class="content-card">
+            <div class="section-header">
+                <div>
+                    <h2>Order Request Log</h2>
+                    <p>Live status of stock requests across system users</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Requested By</th>
+                            <th>Product</th>
+                            <th>Warehouse</th>
+                            <th>Quantity</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action / Approval</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable">
+                        <tr><td colspan="8" class="loading">Loading orders...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

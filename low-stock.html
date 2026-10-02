@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low Stock Alerts - Warehouse System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <div>
+                <h2>WareHouse</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <div id="userProfileBox" class="user-info-box">
+            <!-- Dynamically populated by script.js -->
+        </div>
+
+        <nav>
+            <a href="index.html" class="nav-item"><span>D</span> Dashboard</a>
+            <a href="inventory.html" class="nav-item"><span>I</span> Inventory</a>
+            <a href="warehouses.html" class="nav-item"><span>W</span> Warehouses</a>
+            <a href="stock-in.html" class="nav-item admin-only"><span>+</span> Stock In</a>
+            <a href="stock-out.html" class="nav-item admin-only"><span>-</span> Stock Out</a>
+            <a href="low-stock.html" class="nav-item active"><span>!</span> Low Stock Alerts</a>
+            <a href="orders.html" class="nav-item"><span>O</span> Stock Requests</a>
+            <a href="users.html" class="nav-item admin-only"><span>👥</span> User Admin</a>
+        </nav>
+
+        <button onclick="logoutUser()" class="logout-btn">🔒 Logout</button>
+
+        <div class="sidebar-bottom">
+            <p>MySQL Enterprise DB</p>
+            <small>Warehouse System v2.0</small>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h1>Low Stock Alerts</h1>
+                <p>Monitor products operating below safety reorder thresholds</p>
+            </div>
+        </header>
+
+        <section class="content-card">
+            <div class="section-header">
+                <div>
+                    <h2>Reorder Warning Desk</h2>
+                    <p>Calculated via SQL CTE (Common Table Expression) query</p>
+                </div>
+            </div>
+
+            <div id="lowStockList">
+                <div class="loading">Loading threshold warnings...</div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

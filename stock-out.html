@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Out - Warehouse System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <div>
+                <h2>WareHouse</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <div id="userProfileBox" class="user-info-box">
+            <!-- Dynamically populated by script.js -->
+        </div>
+
+        <nav>
+            <a href="index.html" class="nav-item"><span>D</span> Dashboard</a>
+            <a href="inventory.html" class="nav-item"><span>I</span> Inventory</a>
+            <a href="warehouses.html" class="nav-item"><span>W</span> Warehouses</a>
+            <a href="stock-in.html" class="nav-item admin-only"><span>+</span> Stock In</a>
+            <a href="stock-out.html" class="nav-item active admin-only"><span>-</span> Stock Out</a>
+            <a href="low-stock.html" class="nav-item"><span>!</span> Low Stock Alerts</a>
+            <a href="orders.html" class="nav-item"><span>O</span> Stock Requests</a>
+            <a href="users.html" class="nav-item admin-only"><span>👥</span> User Admin</a>
+        </nav>
+
+        <button onclick="logoutUser()" class="logout-btn">🔒 Logout</button>
+
+        <div class="sidebar-bottom">
+            <p>MySQL Enterprise DB</p>
+            <small>Warehouse System v2.0</small>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h1>Stock Out (Issue Inventory)</h1>
+                <p>Deduct issued stock from a warehouse location</p>
+            </div>
+        </header>
+
+        <section class="content-card">
+            <div class="section-header">
+                <div>
+                    <h2>Issue Inventory Stock</h2>
+                    <p>Record outgoing material issuance in MySQL database</p>
+                </div>
+            </div>
+
+            <form id="stockOutForm" style="max-width: 500px;">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Select Product *</label>
+                    <select id="outProduct" required style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;"></select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Select Source Warehouse *</label>
+                    <select id="outWarehouse" required style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;"></select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Quantity Issued *</label>
+                    <input type="number" id="outQuantity" min="1" required placeholder="Enter quantity" style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Reference / Sales Order Note</label>
+                    <input type="text" id="outReference" placeholder="e.g. SO-4421 Dispatch to Branch" style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;">
+                </div>
+
+                <button type="submit" class="primary-btn" style="padding: 12px 24px;">
+                    Deduct Stock From Warehouse
+                </button>
+            </form>
+
+            <div id="stockOutMessage" style="margin-top: 15px;"></div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

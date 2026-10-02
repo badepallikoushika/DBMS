@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Administration - Warehouse System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <div>
+                <h2>WareHouse</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <div id="userProfileBox" class="user-info-box">
+            <!-- Dynamically populated by script.js -->
+        </div>
+
+        <nav>
+            <a href="index.html" class="nav-item"><span>D</span> Dashboard</a>
+            <a href="inventory.html" class="nav-item"><span>I</span> Inventory</a>
+            <a href="warehouses.html" class="nav-item"><span>W</span> Warehouses</a>
+            <a href="stock-in.html" class="nav-item admin-only"><span>+</span> Stock In</a>
+            <a href="stock-out.html" class="nav-item admin-only"><span>-</span> Stock Out</a>
+            <a href="low-stock.html" class="nav-item"><span>!</span> Low Stock Alerts</a>
+            <a href="orders.html" class="nav-item"><span>O</span> Stock Requests</a>
+            <a href="users.html" class="nav-item active admin-only"><span>👥</span> User Admin</a>
+        </nav>
+
+        <button onclick="logoutUser()" class="logout-btn">🔒 Logout</button>
+
+        <div class="sidebar-bottom">
+            <p>MySQL Enterprise DB</p>
+            <small>Warehouse System v2.0</small>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h1>User Administration & Roles</h1>
+                <p>Manage staff accounts, credentials, and access control (Admin Only)</p>
+            </div>
+        </header>
+
+        <!-- ADD USER FORM -->
+        <section class="content-card" style="margin-bottom: 25px;">
+            <div class="section-header">
+                <div>
+                    <h2>Register New System User</h2>
+                    <p>Create credentials for staff or admin personnel</p>
+                </div>
+            </div>
+
+            <form id="addUserForm" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; align-items: flex-end;">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="newUserName" required placeholder="e.g. John Doe" style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="newUserEmail" required placeholder="e.g. john@warehouse.com" style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;">
+                </div>
+
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" id="newUserPassword" required placeholder="••••••••" style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;">
+                </div>
+
+                <div class="form-group">
+                    <label>Role *</label>
+                    <select id="newUserRole" required style="width:100%; height:40px; padding:0 10px; border-radius:6px; border:1px solid #cbd5e1;">
+                        <option value="user">Staff User</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+
+                <div style="grid-column: span 4;">
+                    <button type="submit" class="primary-btn" style="padding: 10px 20px;">Register User Account</button>
+                </div>
+            </form>
+            <div id="userFormMessage" style="margin-top: 15px;"></div>
+        </section>
+
+        <!-- SYSTEM USERS TABLE -->
+        <section class="content-card">
+            <div class="section-header">
+                <div>
+                    <h2>Active User Accounts</h2>
+                    <p>Registered users with access permissions</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr><td colspan="6" class="loading">Loading accounts...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

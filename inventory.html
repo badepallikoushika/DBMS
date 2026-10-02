@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Inventory Management - Inventory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <div>
+                <h2>WareHouse</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <div id="userProfileBox" class="user-info-box">
+            <!-- Dynamically populated by script.js -->
+        </div>
+
+        <nav>
+            <a href="index.html" class="nav-item"><span>D</span> Dashboard</a>
+            <a href="inventory.html" class="nav-item active"><span>I</span> Inventory</a>
+            <a href="warehouses.html" class="nav-item"><span>W</span> Warehouses</a>
+            <a href="stock-in.html" class="nav-item admin-only"><span>+</span> Stock In</a>
+            <a href="stock-out.html" class="nav-item admin-only"><span>-</span> Stock Out</a>
+            <a href="low-stock.html" class="nav-item"><span>!</span> Low Stock Alerts</a>
+            <a href="orders.html" class="nav-item"><span>O</span> Stock Requests</a>
+            <a href="users.html" class="nav-item admin-only"><span>👥</span> User Admin</a>
+        </nav>
+
+        <button onclick="logoutUser()" class="logout-btn">🔒 Logout</button>
+
+        <div class="sidebar-bottom">
+            <p>MySQL Enterprise DB</p>
+            <small>Warehouse System v2.0</small>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div>
+                <h1>Inventory Catalog</h1>
+                <p>Manage and inspect products, SKUs, pricing, and stock allocations</p>
+            </div>
+            <button class="add-btn admin-only" onclick="openModal()">
+                + Add Product
+            </button>
+        </header>
+
+        <!-- INVENTORY SECTION -->
+        <section class="content-card">
+            <div class="section-header">
+                <div>
+                    <h2>All Products</h2>
+                    <p>Live inventory items stored across your connected warehouses</p>
+                </div>
+
+                <div class="filters">
+                    <input type="text" id="searchInput" placeholder="Search by name, SKU, or category...">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Office Equipment">Office Equipment</option>
+                        <option value="Furniture">Furniture</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- INVENTORY TABLE -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product Name</th>
+                            <th>SKU</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Total Stock</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTable">
+                        <tr>
+                            <td colspan="8" class="loading">Loading inventory data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ADD PRODUCT MODAL -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2>Add New Product</h2>
+                    <p>Define product details and distribute initial stock across warehouses</p>
+                </div>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+
+            <form id="productForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Product Name *</label>
+                        <input type="text" id="name" placeholder="e.g. Laser Barcode Reader" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sku">SKU Code *</label>
+                        <input type="text" id="sku" placeholder="e.g. SCN-909" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category *</label>
+                        <select id="category" required>
+                            <option value="">Select category</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Accessories">Accessories</option>
+                            <option value="Office Equipment">Office Equipment</option>
+                            <option value="Furniture">Furniture</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Unit Price (Rs.) *</label>
+                        <input type="number" id="price" placeholder="Enter unit price" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reorderLevel">Reorder Threshold *</label>
+                        <input type="number" id="reorderLevel" value="10" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" placeholder="Brief technical specifications">
+                    </div>
+                </div>
+
+                <!-- WAREHOUSE STOCK ASSIGNMENTS -->
+                <div class="warehouse-form-section">
+                    <h3>Initial Warehouse Distribution</h3>
+                    <p>Specify starting inventory units per location</p>
+                    <div id="warehouseInputs" class="warehouse-inputs">
+                        <div class="warehouse-loading">Loading available warehouses...</div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="save-btn">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
